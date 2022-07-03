@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  smtpToken: 'bc3e4280-9812-4b63-af40-c1d09230ca16',
+  senderEmail: 'raindrops7322@gmail.com',
 };
 
 /*

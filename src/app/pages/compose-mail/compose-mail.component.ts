@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MailService } from 'src/app/services/mail.service';
 
 @Component({
   selector: 'app-compose-mail',
@@ -12,6 +13,7 @@ export class ComposeMailComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
+    private _mailService: MailService,
   ) { }
 
   get images() {
@@ -28,9 +30,28 @@ export class ComposeMailComponent implements OnInit {
     })
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.mailForm.markAllAsTouched();
-    console.log(this.mailForm);
+    if (this.mailForm.invalid) {
+      return;
+    }
+
+    var images = this.prepareImagesToSend(this.images);
+    try {
+      var message = await this._mailService.sendMail({
+        to: this.mailForm.get('email')?.value,
+        body: this.mailForm.get('description')?.value,
+        firstName: this.mailForm.get('firstName')?.value,
+        lastName: this.mailForm.get('lastName')?.value,
+        attachments: images,
+      });
+    }
+    catch(err) {
+
+    }
+    finally {
+
+    }
   }
 
   addImage(event: Event) {
@@ -57,6 +78,19 @@ export class ComposeMailComponent implements OnInit {
 
   removeImage(index: number) {
     this.images.removeAt(index);
+  }
+
+  /*
+   *  this func transform images' form array into
+   *  the attachment array to use in Email.send method.
+   */
+  prepareImagesToSend(imageFormArray: FormArray) {
+    return imageFormArray.controls.map(el => {
+      return {
+        name: el.get('name')?.value,
+        data: el.get('url')?.value,
+      }
+    })
   }
 
 }
