@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MailService } from 'src/app/services/mail.service';
+import { ErrorDialogComponent } from 'src/app/shared/error-dialog/error-dialog.component';
+import { LoadingIndicatorComponent } from 'src/app/shared/loading-indicator/loading-indicator.component';
+import { SuccessDialogComponent } from 'src/app/shared/success-dialog/success-dialog.component';
 
 @Component({
   selector: 'app-compose-mail',
@@ -14,6 +18,7 @@ export class ComposeMailComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _mailService: MailService,
+    private _dialog: MatDialog,
   ) { }
 
   get images() {
@@ -36,6 +41,8 @@ export class ComposeMailComponent implements OnInit {
       return;
     }
 
+
+    var loadingRef = this._dialog.open(LoadingIndicatorComponent, { disableClose: true });
     var images = this.prepareImagesToSend(this.images);
     try {
       var message = await this._mailService.sendMail({
@@ -45,12 +52,12 @@ export class ComposeMailComponent implements OnInit {
         lastName: this.mailForm.get('lastName')?.value,
         attachments: images,
       });
+      loadingRef.close();
+      var successRef = this._dialog.open(SuccessDialogComponent);
     }
-    catch(err) {
-
-    }
-    finally {
-
+    catch (err) {
+      loadingRef.close();
+      var errorRef = this._dialog.open(ErrorDialogComponent);
     }
   }
 
