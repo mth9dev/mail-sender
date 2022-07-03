@@ -37,6 +37,11 @@ export class ComposeMailComponent implements OnInit {
     let fileList = (event.target as HTMLInputElement)?.files;
     let fileArray = Array.from(fileList!);
     for (let file of fileArray) {
+      // skip if the file is not image.
+      if (!file.type.includes('image')) {
+        continue;
+      }
+      // do the following if the file is image.
       const reader = new FileReader();
       reader.onload = () => {
         let imageForm = this._fb.group({
@@ -50,7 +55,7 @@ export class ComposeMailComponent implements OnInit {
     }
   }
 
-  removeImage(index: number){
+  removeImage(index: number) {
     this.images.removeAt(index);
   }
 
