@@ -2,9 +2,9 @@
     <!-- header -->
     <div class="text-xl text-gray-500 font-medium decoration-8">Form Details</div>
     <!-- body -->
-    <div class="py-6 text-sm">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4" [formGroup]="mailForm">
-            <mat-form-field appearance="outline">
+    <div class="py-6 text-base">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" [formGroup]="mailForm">
+            <mat-form-field appearance="fill">
                 <mat-label>First Name</mat-label>
                 <input matInput formControlName="firstName">
                 <mat-icon color="primary" matPrefix class="mr-2">person</mat-icon>
@@ -14,7 +14,7 @@
                     *ngIf="!mailForm.get('firstName')?.getError('required') && mailForm.get('firstName')?.getError('pattern')">
                     Please enter a valid name.</mat-error>
             </mat-form-field>
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="fill">
                 <mat-label>Last Name</mat-label>
                 <input matInput formControlName="lastName">
                 <mat-icon color="primary" matPrefix class="mr-2">person</mat-icon>
@@ -23,7 +23,7 @@
                     *ngIf="!mailForm.get('lastName')?.getError('required') && mailForm.get('lastName')?.getError('pattern')">
                     Please enter a valid name.</mat-error>
             </mat-form-field>
-            <mat-form-field appearance="outline" class="sm:col-span-2">
+            <mat-form-field appearance="fill" class="sm:col-span-2">
                 <mat-label>Recipient's Email</mat-label>
                 <input matInput formControlName="email">
                 <mat-icon color="primary" matPrefix class="mr-2">mail</mat-icon>
@@ -32,9 +32,9 @@
                     *ngIf="!mailForm.get('email')?.getError('required') && mailForm.get('email')?.getError('pattern')">
                     Please enter a valid email.</mat-error>
             </mat-form-field>
-            <mat-form-field appearance="outline" class="sm:col-span-2">
+            <mat-form-field appearance="fill" class="sm:col-span-2">
                 <mat-label>Description</mat-label>
-                <textarea matInput formControlName="description"></textarea>
+                <textarea matInput formControlName="description" rows="5"></textarea>
                 <mat-icon color="primary" matPrefix class="mr-2">edit_note</mat-icon>
                 <mat-error *ngIf="mailForm.get('description')?.getError('required')">Please fill in this field.
                 </mat-error>
@@ -86,6 +86,9 @@
     </div>
     <!-- footer -->
     <div class="mt-6">
-        <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="mailForm.invalid">Submit</button>
+        <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="mailForm.invalid">
+            <mat-icon class="mr-2 text-base">send</mat-icon>
+            <span class="mr-1">Send</span>
+        </button>
     </div>
 </div>
