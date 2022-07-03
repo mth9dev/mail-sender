@@ -1,41 +1,91 @@
-<div class="mat-elevation-z3 p-6">
+<div class="pt-6">
     <!-- header -->
     <div class="text-xl text-gray-500 font-medium decoration-8">Form Details</div>
     <!-- body -->
-    <div class="pt-6 text-sm">
+    <div class="py-6 text-sm">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4" [formGroup]="mailForm">
             <mat-form-field appearance="outline">
                 <mat-label>First Name</mat-label>
                 <input matInput formControlName="firstName">
                 <mat-icon color="primary" matPrefix class="mr-2">person</mat-icon>
-                <mat-error *ngIf="mailForm.get('firstName')?.getError('required')">Please fill in this field.</mat-error>
-                <mat-error *ngIf="!mailForm.get('firstName')?.getError('required') && mailForm.get('firstName')?.getError('pattern')">Please enter a valid name.</mat-error>
+                <mat-error *ngIf="mailForm.get('firstName')?.getError('required')">Please fill in this field.
+                </mat-error>
+                <mat-error
+                    *ngIf="!mailForm.get('firstName')?.getError('required') && mailForm.get('firstName')?.getError('pattern')">
+                    Please enter a valid name.</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Last Name</mat-label>
                 <input matInput formControlName="lastName">
                 <mat-icon color="primary" matPrefix class="mr-2">person</mat-icon>
                 <mat-error *ngIf="mailForm.get('lastName')?.getError('required')">Please fill in this field.</mat-error>
-                <mat-error *ngIf="!mailForm.get('lastName')?.getError('required') && mailForm.get('lastName')?.getError('pattern')">Please enter a valid name.</mat-error>
+                <mat-error
+                    *ngIf="!mailForm.get('lastName')?.getError('required') && mailForm.get('lastName')?.getError('pattern')">
+                    Please enter a valid name.</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" class="sm:col-span-2">
                 <mat-label>Recipient's Email</mat-label>
                 <input matInput formControlName="email">
                 <mat-icon color="primary" matPrefix class="mr-2">mail</mat-icon>
                 <mat-error *ngIf="mailForm.get('email')?.getError('required')">Please fill in this field.</mat-error>
-                <mat-error *ngIf="!mailForm.get('email')?.getError('required') && mailForm.get('email')?.getError('pattern')">Please enter a valid email.</mat-error>
+                <mat-error
+                    *ngIf="!mailForm.get('email')?.getError('required') && mailForm.get('email')?.getError('pattern')">
+                    Please enter a valid email.</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" class="sm:col-span-2">
                 <mat-label>Description</mat-label>
                 <textarea matInput formControlName="description"></textarea>
                 <mat-icon color="primary" matPrefix class="mr-2">edit_note</mat-icon>
-                <mat-error *ngIf="mailForm.get('description')?.getError('required')">Please fill in this field.</mat-error>
-                <mat-error *ngIf="!mailForm.get('description')?.getError('required') && mailForm.get('description')?.getError('pattern')">Please enter a valid text.</mat-error>
+                <mat-error *ngIf="mailForm.get('description')?.getError('required')">Please fill in this field.
+                </mat-error>
+                <mat-error
+                    *ngIf="!mailForm.get('description')?.getError('required') && mailForm.get('description')?.getError('pattern')">
+                    Please enter a valid text.</mat-error>
             </mat-form-field>
+        </div>
+    </div>
+    <!-- image section header -->
+    <div class="flex justify-between items-center text-xl mt-6">
+        <div class="flex justify-start items-center">
+            <span class="text-gray-500 font-medium decoration-8">Attach Images (optional)</span>
+            <button mat-icon-button color="primary" aria-label="Attach Image" (click)="imagePicker.click()">
+                <mat-icon>attach_file</mat-icon>
+            </button>
+        </div>
+        <span class="text-gray-500 font-medium decoration-8 text-base"> {{images.controls.length}} image(s) </span>
+    </div>
+    <!-- image section body -->
+    <div class="mt-6">
+        <!-- hidden image control -->
+        <input #imagePicker class="hidden" type="file" accept="image/*" (change)="addImage($event)" multiple>
+        <!-- "no image" message -->
+        <div *ngIf="images.controls.length == 0" class="flex justify-center items-center w-full h-72 bg-gray-100">
+            <span class="flex text-xl text-gray-500 font-medium decoration-8 p-6">Images can be added using "attachment"
+                icon button.</span>
+        </div>
+        <!-- grid -->
+        <div *ngIf="images.controls.length != 0" class="grid md:grid-cols-2 grid-cols-1 gap-4">
+            <!-- image container -->
+            <div *ngFor="let image of images.controls; let i = index;" class="mat-elevation-z2">
+                <div class="w-full h-72 overflow-hidden">
+                    <img class="object-cover w-full h-full" [src]="image.get('url')?.value" alt="Uploaded image">
+                </div>
+                <!-- title -->
+                <div class="text-base h-6 overflow-hidden my-4 mx-2"
+                    style="display: -webkit-box; -webkit-line-clamp: 1;-webkit-box-orient: vertical;">
+                    {{image.get('name')?.value}}
+                </div>
+                <!-- button -->
+                <div class="pb-2 px-2">
+                    <button mat-stroked-button class="w-full p-2" (click)="removeImage(i)">
+                        <mat-icon>delete_outline</mat-icon>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
     <!-- footer -->
     <div class="mt-6">
-        <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="mailForm.invalid">Submit</button>
+        <button mat-raised-button (click)="onSubmit()" [disabled]="mailForm.invalid">Submit</button>
     </div>
 </div>
