@@ -2,6 +2,9 @@
 
 This project contains a form that accepts email address, description and user's name. The option to upload images and preview them are also provided. When the user submnitted, the contents will be sent to the specified email address. This app uses *raindrops7322@gmail.com* as the sender's email.
 
+## Hosted on
+https://mail-sender-7efa6.web.app
+
 ## Prerequisite
 1. Node.js latest version
 
