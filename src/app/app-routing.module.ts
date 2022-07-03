@@ -16,7 +16,12 @@ const routes: Routes = [
       {
         path: 'compose-mail',
         component: ComposeMailComponent,
-      }
+      },
+      {
+        path: '**',
+        redirectTo: 'compose-mail',
+        pathMatch: 'full',
+      },
     ]
   }
 ];
