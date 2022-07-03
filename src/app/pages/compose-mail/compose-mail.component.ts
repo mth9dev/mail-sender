@@ -54,6 +54,7 @@ export class ComposeMailComponent implements OnInit {
       });
       loadingRef.close();
       var successRef = this._dialog.open(SuccessDialogComponent);
+      this.resetMailForm();
     }
     catch (err) {
       loadingRef.close();
@@ -98,6 +99,13 @@ export class ComposeMailComponent implements OnInit {
         data: el.get('url')?.value,
       }
     })
+  }
+
+  resetMailForm() {
+    this.mailForm.reset();
+    while (this.images.length != 0) {
+      this.images.removeAt(0);
+    }
   }
 
 }
